@@ -1,0 +1,16 @@
+/app
+  /api
+    /health/route.ts
+    /meta/route.ts
+    /team/route.ts
+    /roles/route.ts
+    /content/[role]/route.ts
+    /auth
+      /mock-login/route.ts
+      /mock-me/route.ts
+/lib
+  data.ts
+  security.ts
+  response.ts
+  types.ts
+/.env.example
