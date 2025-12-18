@@ -164,4 +164,45 @@
                   "teamName": { "type": "string" },
                   "judgeHook": { "type": "string" },
                   "tagline": { "type": "string" },
-                  "links": { "ty
+                  "links": { "type": "object" }
+                },
+                "required": ["productName","teamName","judgeHook","tagline","links"]
+              }
+            },
+            "required": ["data"]
+          }
+        ]
+      },
+      "OkTeam": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          { "type": "object", "properties": { "data": { "type": "object", "properties": { "members": { "type": "array", "items": { "$ref": "#/components/schemas/TeamMember" } } }, "required": ["members"] } }, "required": ["data"] }
+        ]
+      },
+      "OkRoles": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          { "type": "object", "properties": { "data": { "type": "object", "properties": { "roles": { "type": "array", "items": { "$ref": "#/components/schemas/RoleMenu" } } }, "required": ["roles"] } }, "required": ["data"] }
+        ]
+      },
+      "OkRoleContent": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          { "type": "object", "properties": { "data": { "$ref": "#/components/schemas/RoleContent" } }, "required": ["data"] }
+        ]
+      },
+      "OkLogin": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          { "type": "object", "properties": { "data": { "type": "object", "properties": { "token": { "type": "string" }, "role": { "$ref": "#/components/schemas/Role" } }, "required": ["token","role"] } }, "required": ["data"] }
+        ]
+      },
+      "OkMe": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          { "type": "object", "properties": { "data": { "type": "object", "properties": { "user": { "type": "object", "properties": { "role": { "$ref": "#/components/schemas/Role" } }, "required": ["role"] } }, "required": ["user"] } }, "required": ["data"] }
+        ]
+      }
+    }
+  }
+}
