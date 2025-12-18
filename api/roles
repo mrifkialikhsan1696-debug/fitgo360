@@ -1,0 +1,5 @@
+roles: [
+  { role: "patient", label: "Pasien & Keluarga", landingPath: "/role/patient" },
+  { role: "nakes", label: "Nakes", ... },
+  { role: "policy", label: "Policy Brief", ... }
+]
