@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "GO FIT 360°",
+    "slug": "go-fit-360",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "gofit360",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "backgroundColor": "#0B3B5A"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#0B3B5A"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    }
+  }
+}
