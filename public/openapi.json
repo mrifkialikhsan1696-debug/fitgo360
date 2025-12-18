@@ -1,0 +1,167 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "GO FIT 360 API",
+    "version": "0.1.0",
+    "description": "Emergency-first role-based content API for demo & judge evaluation."
+  },
+  "servers": [{ "url": "" }],
+  "paths": {
+    "/api/meta": {
+      "get": {
+        "summary": "Get product meta",
+        "responses": {
+          "200": {
+            "description": "Meta payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkMeta" } } }
+          }
+        }
+      }
+    },
+    "/api/team": {
+      "get": {
+        "summary": "Get team members",
+        "responses": {
+          "200": {
+            "description": "Team payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkTeam" } } }
+          }
+        }
+      }
+    },
+    "/api/roles": {
+      "get": {
+        "summary": "Get role menu (dropdown)",
+        "responses": {
+          "200": {
+            "description": "Roles payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkRoles" } } }
+          }
+        }
+      }
+    },
+    "/api/content/{role}": {
+      "get": {
+        "summary": "Get role-based content",
+        "parameters": [
+          { "name": "role", "in": "path", "required": true, "schema": { "$ref": "#/components/schemas/Role" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "Role content payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkRoleContent" } } }
+          },
+          "404": { "description": "Unknown role" }
+        }
+      }
+    },
+    "/api/auth/mock-login": {
+      "post": {
+        "summary": "Mock login (role → token)",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "type": "object", "properties": { "role": { "$ref": "#/components/schemas/Role" } }, "required": ["role"] } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Token payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkLogin" } } }
+          }
+        }
+      }
+    },
+    "/api/auth/mock-me": {
+      "get": {
+        "summary": "Read current role from token",
+        "parameters": [
+          { "name": "Authorization", "in": "header", "required": true, "schema": { "type": "string", "example": "Bearer <token>" } }
+        ],
+        "responses": {
+          "200": {
+            "description": "User payload",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OkMe" } } }
+          },
+          "401": { "description": "Missing/invalid token" }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Role": {
+        "type": "string",
+        "enum": ["patient","nakes","policy","provider","dinkes","hospital","employer","researcher","judge"]
+      },
+      "RoleMenu": {
+        "type": "object",
+        "properties": {
+          "role": { "$ref": "#/components/schemas/Role" },
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "landingPath": { "type": "string" },
+          "icon": { "type": "string" }
+        },
+        "required": ["role","label","description","landingPath","icon"]
+      },
+      "TeamMember": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "role": { "type": "string" },
+          "org": { "type": "string" },
+          "links": {
+            "type": "array",
+            "items": { "type": "object", "properties": { "label": { "type": "string" }, "url": { "type": "string" } }, "required": ["label","url"] }
+          },
+          "tags": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["name","role","org","links","tags"]
+      },
+      "RoleContent": {
+        "type": "object",
+        "properties": {
+          "role": { "$ref": "#/components/schemas/Role" },
+          "hero": {
+            "type": "object",
+            "properties": { "title": { "type": "string" }, "tagline": { "type": "string" }, "oneLineHook": { "type": "string" } },
+            "required": ["title","tagline","oneLineHook"]
+          },
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "string" },
+                "title": { "type": "string" },
+                "bullets": { "type": "array", "items": { "type": "string" } }
+              },
+              "required": ["id","title","bullets"]
+            }
+          }
+        },
+        "required": ["role","hero","sections"]
+      },
+      "Envelope": {
+        "type": "object",
+        "properties": {
+          "ok": { "type": "boolean" },
+          "ts": { "type": "string" }
+        },
+        "required": ["ok","ts"]
+      },
+      "OkMeta": {
+        "allOf": [
+          { "$ref": "#/components/schemas/Envelope" },
+          {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "productName": { "type": "string" },
+                  "teamName": { "type": "string" },
+                  "judgeHook": { "type": "string" },
+                  "tagline": { "type": "string" },
+                  "links": { "ty
